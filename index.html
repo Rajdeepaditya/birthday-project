@@ -595,10 +595,24 @@
             const bubbleShow = 0.9, bubbleHold = 2.0, bubbleHide = 0.9;
             tl.to(B1, { autoAlpha: 1, x: 24, y: 24, duration: bubbleShow });
             tl.to(B1, { autoAlpha: 0, x: -36, duration: bubbleHide, delay: bubbleHold });
+
             tl.to(B2, {
-                autoAlpha: 1, x: -24, duration: bubbleShow, delay: 0.6,
-                onStart: () => { try { if (!bgm.playing()) { bgm.play(); bgm.fade(0, 1, 1200); } } catch (e) { } }
-            });
+            autoAlpha: 1,
+                x: -24,
+                    duration: bubbleShow,
+                    delay: 0.6,
+                    onStart: () => {
+                try {
+                if (!bgm.playing()) {
+                bgm.volume(0);
+                bgm.play();
+                gsap.to(bgm, { volume: 1, duration: 1.2 });
+                    }
+                    } catch (e) { console.warn('Music play failed:', e); }
+                    }
+                        });
+
+
             tl.to(B2, { autoAlpha: 0, x: 36, duration: bubbleHide, delay: bubbleHold });
             tl.call(() => lightBulbs(), null, "+=0.2");
             tl.to(B3, { autoAlpha: 1, x: -34, duration: bubbleShow, delay: 0.6 });
@@ -608,13 +622,17 @@
             tl.call(() => revealVideo(), null, "+=0.6");
         }
 
-        document.getElementById('startBtn').onclick = function () {
-            document.getElementById('startOverlay').classList.add('hide');
-            try { bgm.volume(0); bgm.play(); setTimeout(() => { bgm.stop(); bgm.volume(1); }, 40); } catch (e) { }
-            buildTimeline();
-            tl.play();
-            setTimeout(() => { document.getElementById('startOverlay').remove(); }, 700);
-        };
+       document.getElementById('startBtn').onclick = function () {
+    // Hide the overlay
+    const startOverlay = document.getElementById('startOverlay');
+    startOverlay.classList.add('hide');
+    setTimeout(() => startOverlay.remove(), 700);
+
+    // Build and play the timeline
+    buildTimeline();
+    tl.play();
+};
+
 
         function lightBulbs() {
             gsap.to(cores, { opacity: 1, scale: 1, duration: 1.1, stagger: 0.36, ease: 'power2.out' });
@@ -647,7 +665,6 @@
                     const temp = document.createElement('div');
                     temp.className = 'bubble b-center-left';
                     temp.style.zIndex = 23;
-                    temp.innerHTML = '<span class="emoji">🕯️</span><strong>Diya</strong><p>I\\am lighting the candles for you.</p>';
                     document.body.appendChild(temp);
                     gsap.to(temp, { autoAlpha: 1, x: 34, duration: 0.9 });
                     setTimeout(() => {
