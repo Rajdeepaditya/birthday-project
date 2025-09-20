@@ -1,6 +1,6 @@
-# Diya — A Birthday Journey (Premium)
+# Birthday Journey (Premium)
 
-**Diya — A Birthday Journey** is a personalized, interactive birthday greeting web project. It combines animations, audio, video, and fireworks to create an immersive virtual celebration experience.
+**Birthday Journey** is a personalized, interactive birthday greeting web project. It combines animations, audio, video, and fireworks to create an immersive virtual celebration experience.
 
 ## Demo
 You can view the live demo here: [GitHub Pages Link](https://rajdeepaditya.github.io/birthday-project)
